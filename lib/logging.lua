@@ -1,4 +1,4 @@
-logFile = io.open(lfs.writedir()..[[Logs\HOGGIT.log]], "w")
+logFile = io.open(HOGGIT.log_base..[[\HOGGIT.log]], "w")
 
 function log(str)
   if str == nil then str = 'nil' end

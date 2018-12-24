@@ -1,0 +1,8 @@
+-- Copy this file to your GAME INSTALL'S Scripts folder (probably in C:\Program Files\Eagle Dynamics\DCS World\Scripts)
+-- NOT your Saved Games Scripts folder.
+-- Hoggit Framework Config.
+
+-- Replace these values with the Scripts and Logs folders in your SAVED GAMES' Scripts
+-- folder (NOT your base install folder), with NO trailing slash.
+script_base = [[D:\Personal Folders\Saved Games\DCS.openbeta\Scripts]]
+log_base = [[D:\Personal Folders\Saved Games\DCS.openbeta\Logs]]
