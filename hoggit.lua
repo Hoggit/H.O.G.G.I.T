@@ -1,6 +1,5 @@
-trigger.action.outText(HOGGIT.script_base, 25)
-trigger.action.outText(HOGGIT.log_base, 25)
 dofile(HOGGIT.script_base..[[\HOGGIT\lib\error_handling.lua]])
 dofile(HOGGIT.script_base..[[\HOGGIT\lib\logging.lua]])
 dofile(HOGGIT.script_base..[[\HOGGIT\lib\utils.lua]])
 dofile(HOGGIT.script_base..[[\HOGGIT\lib\spawner.lua]])
+dofile(HOGGIT.script_base..[[\HOGGIT\lib\group_commands.lua]])

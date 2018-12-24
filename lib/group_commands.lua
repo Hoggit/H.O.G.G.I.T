@@ -12,7 +12,7 @@ HOGGIT.GroupCommand = function(group, text, parent, handler)
   end
 end
 HOGGIT.GroupMenuAdded={}
-GroupMenu = function( groupId, text, parent )
+HOGGIT.GroupMenu = function( groupId, text, parent )
   if HOGGIT.GroupMenuAdded[tostring(groupId)] == nil then
     log("No commands from groupId " .. groupId .. " yet. Initializing menu state")
     HOGGIT.GroupMenuAdded[tostring(groupId)] = {}
@@ -24,13 +24,13 @@ GroupMenu = function( groupId, text, parent )
   return HOGGIT.GroupMenuAdded[tostring(groupId)][text]
 end
 
-MessageToGroup = function(groupId, text, displayTime, clear)
+HOGGIT.MessageToGroup = function(groupId, text, displayTime, clear)
   if not displayTime then displayTime = 10 end
   if clear == nil then clear = false end
   trigger.action.outTextForGroup( groupId, text, displayTime, clear)
 end
 
-MessageToAll = function( text, displayTime )
+HOGGIT.MessageToAll = function( text, displayTime )
   if not displayTime then displayTime = 10 end
   trigger.action.outText( text, displayTime )
 end

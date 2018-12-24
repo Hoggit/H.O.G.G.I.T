@@ -1,3 +1,8 @@
+HOGGIT.randomInList = function(list)
+    local idx = math.random(1, #list)
+    return list[idx]
+  end
+
 HOGGIT.filterTable = function(t, filter)
     local out = {}
     for k,v in pairs(t) do
