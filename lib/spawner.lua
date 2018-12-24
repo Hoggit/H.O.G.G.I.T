@@ -4,8 +4,6 @@ spawner.lua
 Automatically create a table of all units in the game and create a spawner for them.
 ]]
 
-HOGGIT = {}
-
 HOGGIT.Spawner = function(grpName)
     local CallBack = {}
     return {
