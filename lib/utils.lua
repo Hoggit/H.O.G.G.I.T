@@ -20,3 +20,9 @@ HOGGIT.listContains = function(list, elem)
 
   return false
 end
+
+HOGGIT.getLatLongString = function(pos, decimal)
+    local lat, long = coord.LOtoLL(pos)
+    if decimal == nil then decimal = false end
+    return mist.tostringLL(lat, long, 3, decimal)
+end
