@@ -26,3 +26,14 @@ HOGGIT.getLatLongString = function(pos, decimal)
     if decimal == nil then decimal = false end
     return mist.tostringLL(lat, long, 3, decimal)
 end
+
+-- Returns a textual smoke name based on the provided enum
+-- @param a trigger.smokeColor enum
+-- @return the English word as a string representing the color of the smoke. i.e. trigger.smokeColor.Red returns "Red"
+HOGGIT.getSmokeName = function(smokeColor)
+  if smokeColor == trigger.smokeColor.Green then return "Green" end
+  if smokeColor == trigger.smokeColor.Red then return "Red" end
+  if smokeColor == trigger.smokeColor.White then return "White" end
+  if smokeColor == trigger.smokeColor.Orange then return "Orange" end
+  if smokeColor == trigger.smokeColor.Blue then return "Blue" end
+end
