@@ -20,3 +20,13 @@ HOGGIT.listContains = function(list, elem)
   
     return false
 end
+
+HOGGIT.GroupIsAlive = function(group)
+    local grp = nil
+    if type(group) == "string" then
+        grp = Group.getByName(group)
+    else
+        grp = group
+    end
+    if grp and grp:isExist() and grp:getSize() > 0 then return true else return false end
+end
