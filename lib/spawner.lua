@@ -59,7 +59,10 @@ HOGGIT.Spawner = function(grpName)
             mist.scheduleFunction(CallBack.func, {added_grp, unpack(CallBack.args)}, timer.getTime() + 1)
             end
             SpawnedGroups[added_grp] = true
-            if zombie then HOGGIT.setZombie(HOGGIT.zombies, added_grp, self, true) end
+            if zombie then 
+                HOGGIT.setZombie(added_grp, self, true) 
+                trigger.action.outText("Spawned new zombie " .. added_grp:getName(), 3) 
+            end
             return added_grp
         end,
 
@@ -83,7 +86,7 @@ HOGGIT.Spawner = function(grpName)
             end
             local added_grp = Group.getByName(name)
             SpawnedGroups[added_grp] = true
-            if zombie then HOGGIT.setZombie(HOGGIT.zombies, added_grp, self, true) end
+            if zombie then HOGGIT.setZombie(added_grp, self, true) end
             return added_grp
             else
             trigger.action.outText("Error spawning " .. grpName, 15)
@@ -102,7 +105,7 @@ HOGGIT.Spawner = function(grpName)
             mist.scheduleFunction(CallBack.func, {added_grp, unpack(CallBack.args)}, timer.getTime() + 1)
             end
             SpawnedGroups[added_grp] = true
-            if zombie then HOGGIT.setZombie(HOGGIT.zombies, added_grp, self, true) end
+            if zombie then HOGGIT.setZombie(added_grp, self, true) end
             return added_grp
         end,
 
@@ -137,7 +140,7 @@ HOGGIT.Spawner = function(grpName)
             self:SetZombieOptions({
                 ['zombie'] = true,
                 ['respawn_delay'] = respawn_delay,
-                ['partial_death_threshold_percent'] = respawn_delay,
+                ['partial_death_threshold_percent'] = partial_death_threshold_percent,
                 ['partial_death_respawn_delay'] = partial_death_respawn_delay
                 })
             end
@@ -157,6 +160,18 @@ HOGGIT.Spawner = function(grpName)
                 trigger.action.outText(GroupName .. " is now a zombie!  Arggghhh!", 10)
             end
         end,
+
+        GetRespawnDelay = function(self, partial)
+            if partial then
+                return partial_death_respawn_delay
+            else
+                return respawn_delay
+            end
+        end,
+
+        GetPartialDeathThresholdPercent = function(self)
+            return partial_death_threshold_percent
+        end
     }
 end
 
@@ -169,47 +184,58 @@ HOGGIT.SetupDefaultSpawners = function()
     end
 end
 
-HOGGIT.setZombie = function(zombie_tracker, group, spawner, state)
+HOGGIT.setZombie = function(group, spawner, state)
     if state then
-        zombie_tracker[group] = spawner
+        HOGGIT.zombies[group:getName()] = spawner
     else
-        zombie_tracker[group] = nil
+        HOGGIT.zombies[group:getName()] = nil
     end
 end
 
 HOGGIT._deathHandler = function(event)
     if event.id ~= world.event.S_EVENT_DEAD then return end
+    trigger.action.outText("SOMETHING DEAD YO", 10)
     if not event.initiator then return end
     if not event.initiator.getGroup then return end
     
-    local grp = event.initiator:getGroup()
+    local grp = event.initiator:getGroup():getName()
     if grp then
+        trigger.action.outText("FOUND GROUP", 10)
         if HOGGIT.zombies[grp] then
+            trigger.action.outText("CONFIRMED ZOMBIE", 10)
             local spawner = HOGGIT.zombies[grp]
+            trigger.action.outText("FOUND SPAWNER", 10)
             if HOGGIT.zombie_checks[spawner] then
+                trigger.action.outText("FOUND SPAWNER CHECK", 10)
                 local s_func_id = HOGGIT.zombie_checks[spawner]
                 mist.removeFunction(s_func_id)
-                trigger.action.outText("Removing dead check id ".. s_func_id .." for group: " + grp:getName())
+                trigger.action.outText("Removing dead check id ".. s_func_id .." for group: " .. grp, 10)
             end
             local new_func_id = mist.scheduleFunction(function()
+                trigger.action.outText("STARTING DEAD CHECK", 10)
                 local needs_respawn = false
                 local partial_respawn = false
                 if not HOGGIT.GroupIsAlive(grp) then
                     needs_respawn = true
-                elseif spawner.partial_death_threshold_percent then
-                    local group_size = grp:getSize()
-                    local initial_size = grp:getInitialSize()
+                    trigger.action.outText("THEY DEAD, RESPAWNIN", 10)
+                elseif spawner:GetPartialDeathThresholdPercent() then
+                    trigger.action.outText("CHECKING PERCENT", 10)
+                    local group_obj = Group.getByName(grp)
+                    local group_size = group_obj:getSize()
+                    local initial_size = group_obj:getInitialSize()
                     local percent_alive = group_size / initial_size * 100
-
-                    if (percent_alive - 100) >= partial_death_threshold_percent then
+                    trigger.action.outText(percent_alive .. " percent alive.  Threshold is " .. spawner:GetPartialDeathThresholdPercent(), 10)
+                    if (100 - percent_alive) >= spawner:GetPartialDeathThresholdPercent() then
+                        trigger.action.outText("TRIGGERING PARTIAL RESPAWNING", 10)
                         needs_respawn = true
                         partial_respawn = true
                     end
                 end
 
                 if needs_respawn then
-                    local delay = spawner.respawn_delay
-                    if partial_respawn then delay = spawner.partial_death_respawn_delay end
+                    trigger.action.outText("GROUP NEEDS RESPAWNING", 10)
+                    local delay = spawner:GetRespawnDelay(partial_respawn)
+                    trigger.action.outText("DELAY OF " .. delay, 10)
                     HOGGIT.zombies[grp] = nil
 
                     mist.scheduleFunction(function()
@@ -217,13 +243,22 @@ HOGGIT._deathHandler = function(event)
                     end, {}, timer.getTime() + delay)
                 end
                 HOGGIT.zombie_checks[spawner] = nil
-                
+
             end, {}, timer.getTime() + 10)
             
-            trigger.action.outText("Scheduled NEW dead check id ".. new_func_id .." for group: " .. grp:getName())
+            trigger.action.outText("Scheduled NEW dead check id ".. new_func_id .." for group: " .. grp, 10)
             HOGGIT.zombie_checks[spawner] = new_func_id
+        else
+            
         end
     end
 end
-
+mist.scheduleFunction(function()
+    trigger.action.outText("Showing current zombies", 10)
+    for i,data in pairs(HOGGIT.zombies) do
+        if HOGGIT.zombies[i] then trigger.action.outText("TOOOO", 10) end
+        if HOGGIT.zombies['IRAN gnd 1'] then trigger.action.outText("DOOOOOO", 10) end
+    end
+    
+end, {}, timer.getTime() + 40)
 mist.addEventHandler(HOGGIT._deathHandler)
