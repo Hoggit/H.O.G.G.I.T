@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '/opt/squish/bin/squish --no-minify'
+                sh 'squish --uglify'
                 sh "ldoc ${env.WORKSPACE}"
             }
         }
