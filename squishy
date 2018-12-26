@@ -1,0 +1,8 @@
+Output "dist/hoggit_framework.lua"
+
+Main "lib/error_handling.lua"
+Main "lib/logging.lua"
+Main "lib/utils.lua"
+Main "lib/spawner.lua"
+Main "lib/communication.lua"
+Main "lib/group.lua"
