@@ -4,17 +4,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '/opt/squish/bin/squish --no-minify'
+                sh 'squish --uglify'
                 sh "ldoc ${env.WORKSPACE}"
             }
         }
-       stage('Deploy') {
+        stage('Deploy') {
             when {
-                tag 'release-*'
+                anyOf { tag 'release-*'; branch 'master' }
             }
 
             steps {
-                sh "python3 /opt/hoggit_releaser/releaser.py ${env.WORKSPACE} ${env.TAG_NAME}"
+                script {
+                    if (env.TAG_NAME && env.TAG_NAME =~ /release-/) {
+                        TAG = env.TAG_NAME
+                    } else {
+                        TAG = env.BRANCH_NAME
+                    }
+                }
+                sh "python3 /opt/hoggit_releaser/releaser.py ${env.WORKSPACE} ${TAG}"
             }
         }
     }
