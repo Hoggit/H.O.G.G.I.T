@@ -17,7 +17,7 @@ HOGGIT.spawners.red['Bad Guys']:Spawn()
 ]]
 HOGGIT.spawners = {['neutral'] = {}, ['red'] = {}, ['blue'] = {}}
 
---[[
+--[[--
 Spawner object that takes a group name from the ME.
 Has flexible options for spawning a group once defined. One of these are created for each group that exists 
 in the .miz later on (stored in HOGGIT.spawners), but you can also define your own if you'd like to have groups 
