@@ -1,5 +1,6 @@
 Output "dist/hoggit_framework.lua"
 
+Main "hoggit.lua"
 Main "hoggit/error_handling.lua"
 Main "hoggit/logging.lua"
 Main "hoggit/utils.lua"
