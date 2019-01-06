@@ -50,3 +50,13 @@ HOGGIT.MessageToAll = function(text, displayTime)
     if not displayTime then displayTime = 10 end
     trigger.action.outText(text, displayTime)
 end
+
+
+--- Send a message to all players in the given coalition
+-- @param coalition The coalition to send to (0 = neutral, 1 = red, 2 = blue)
+-- @param text The text that is shown in the message
+-- @param displayTime Amount of time in seconds to show the message
+HOGGIT.MessageToCoalition = function(text, displayTime, coalition)
+  if not displayTime then displayTime = 10 end
+  trigger.action.outTextForCoalition(coalition, text, displayTime)
+end
