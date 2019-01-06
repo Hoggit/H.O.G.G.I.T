@@ -1,6 +1,6 @@
 -- Development mode.  This module is defined and configured with a base config
 -- in the game install Scripts folder in development mode.
-if HOGGIT and HOGGIT.script_base then
+if trigger.misc.getUserFlag(9999) and HOGGIT and HOGGIT.script_base then
     dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\error_handling.lua]])
     dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\logging.lua]])
     dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\utils.lua]])
