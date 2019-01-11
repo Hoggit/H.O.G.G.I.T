@@ -29,11 +29,14 @@ HOGGIT.CoordsForGroup = function(grp, position)
   if not u then return "" end -- Can't get any units from the group to inspect.
 
   local groupPlaneType = u:getTypeName()
-  return HOGGIT.CoordFuncForPlaneType(groupPlaneType, position)
+  return HOGGIT.CoordForPlaneType(groupPlaneType, position)
 end
 
 --- Given a plane type and position, return a string representing the position in a format useful for that planetype.
-HOGGIT.CoordFuncForPlaneType = function(planeType, pos)
+--@param planeType String indicating the DCS plane type. See Unit.getTypeName() in DCS Scripting docs.
+--@param position The position (table of x,y,z) coordinates to be translated
+--@return String of coordinates formatted so they can be useful for the given planeType
+HOGGIT.CoordForPlaneType = function(planeType, pos)
   local lat,long = coord.LOtoLL(pos)
   local dms = function()
     return mist.tostringLL(lat, long, 0, "")
