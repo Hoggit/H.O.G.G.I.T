@@ -13,6 +13,7 @@ if trigger.misc.getUserFlag(9999) == 1 and HOGGIT and HOGGIT.script_base then
     dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\spawner.lua]])
     dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\communication.lua]])
     dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\group.lua]])
+    dofile(HOGGIT.script_base..[[\HOGGIT\hoggit\state.lua]])
 else
     -- The dist version of this framework starts with this file in the minification, so we need to define the top
     -- level module right here.
