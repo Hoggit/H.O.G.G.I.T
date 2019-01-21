@@ -157,7 +157,7 @@ HOGGIT.Spawner = function(grpName)
                     partial_death_respawn_delay = respawn_delay
                 end
 
-                trigger.action.outText(GroupName .. " is now a zombie!  Arggghhh!", 10)
+                HOGGIT.debug_text(GroupName .. " is now a zombie!  Arggghhh!", 10)
             end
         end,
 
