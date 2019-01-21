@@ -197,7 +197,7 @@ HOGGIT._deathHandler = function(event)
         HOGGIT.debug_text("SOMETHING DEAD YO", 10)
         if not event.initiator then return end
         if not event.initiator.getGroup then return end
-        
+
         local grp = event.initiator:getGroup():getName()
         if grp then
             HOGGIT.debug_text("FOUND GROUP", 10)
@@ -239,17 +239,14 @@ HOGGIT._deathHandler = function(event)
                         HOGGIT.zombies[grp] = nil
 
                         mist.scheduleFunction(function()
-                            spawner.Spawn()
+                            HOGGIT.setZombie(spawner.Spawn(), spawner, true)
                         end, {}, timer.getTime() + delay)
                     end
                     HOGGIT.zombie_checks[spawner] = nil
 
                 end, {}, timer.getTime() + 10)
-                
                 HOGGIT.debug_text("Scheduled NEW dead check id ".. new_func_id .." for group: " .. grp, 10)
                 HOGGIT.zombie_checks[spawner] = new_func_id
-            else
-                
             end
         end
     end
