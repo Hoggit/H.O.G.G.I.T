@@ -197,7 +197,7 @@ HOGGIT._deathHandler = function(event)
         HOGGIT.debug_text("SOMETHING DEAD YO", 10)
         if not event.initiator then return end
         if not event.initiator.getGroup then return end
-        if not event.initiator.getGroup() then return end
+        if not event.initiator:getGroup() then return end
 
         local grp = event.initiator:getGroup():getName()
         if grp then
