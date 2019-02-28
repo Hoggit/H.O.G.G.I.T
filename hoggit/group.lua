@@ -47,7 +47,7 @@ HOGGIT.CoordForPlaneType = function(planeType, pos)
   local mgrs = function()
     return mist.tostringMGRS(coord.LLtoMGRS(lat,long),4)
   end
-  local ewdms6 = function()
+  local endms6 = function()
     return mist.tostringLL(long, lat, 2, "")
   end
   --If it's not defined here we'll use dms.
@@ -55,7 +55,7 @@ HOGGIT.CoordForPlaneType = function(planeType, pos)
     ["Ka-50"] = ddm,
     ["M-2000C"] = ddm,
     ["A-10C"] = mgrs,
-    ["AJS37"] = ewdms6
+    ["AJS37"] = endms6
     -- Everything else will default to dms. Add things here if we need exclusions.
   }
   local f = unitCoordTypeTable[planeType]
