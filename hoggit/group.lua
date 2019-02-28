@@ -46,6 +46,7 @@ HOGGIT.CoordForPlaneType = function(planeType, pos)
   end
   local mgrs = function()
     return mist.tostringMGRS(coord.LLtoMGRS(lat,long),4)
+  end
   local ewdms6 = function()
     return mist.tostringLL(long, lat, 2, "")
   end
